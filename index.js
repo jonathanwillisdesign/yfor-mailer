@@ -17,13 +17,10 @@ const transporter = nodemailer.createTransport({
 
 async function newEnquiryNotificationEmail({email, name, message}) {
   const info = await transporter.sendMail({
-    from: {
-      name: name,
-      address: email
-    },
+    from: `${name} <${email}>`,
     to: process.env.NOTIFICATION_EMAIL,
     subject: `New Enquiry - ${name}`,
-    html: `<p>New enquiry from ${name}</p><br><p>Email - ${email}</p><br><p>${message}</p>`,
+    html: `<p>New enquiry from ${name} (${email})</p><br><p>"${message}"</p>`,
   });
 
   console.log("Message sent: %s", info.messageId);
