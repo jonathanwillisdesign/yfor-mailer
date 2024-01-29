@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "",
-    pass: "",
+    user: process.env.TRANSPORT_EMAIL,
+    pass: process.env.TRANSPORT_EMAIL_PASS,
   },
 });
 
@@ -49,7 +49,7 @@ app.post('/', (req, res) => {
     res.status(400).json({"response": "incomplete"});
     return;
   }
-  
+
   newEnquiryNotificationEmail({email, name, message}).catch(console.error())
 
   res.json({"response": "sent", "name": req.body.name})
