@@ -47,7 +47,7 @@ app.post('/', (req, res) => {
     return;
   }
 
-  newEnquiryNotificationEmail({email, name, message}).catch(console.error())
+  newEnquiryNotificationEmail({email, name, phone, message}).catch(console.error())
 
   res.json({"response": "sent", "name": req.body.name})
 })
