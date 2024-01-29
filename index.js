@@ -15,12 +15,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function newEnquiryNotificationEmail({email, name, message}) {
+async function newEnquiryNotificationEmail({email, name, phone, message}) {
   const info = await transporter.sendMail({
     from: `${name} <${email}>`,
     to: process.env.NOTIFICATION_EMAIL,
     subject: `New Enquiry - ${name}`,
-    html: `<p>New enquiry from ${name} (${email})</p><br><p>"${message}"</p>`,
+    html: `<p>New enquiry from ${name} (${email} || ${phone})</p><br><p>"${message}"</p>`,
   });
 
   console.log("Message sent: %s", info.messageId);
@@ -40,9 +40,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  const { email, name, message } = req.body;
+  const { email, name, phone, message } = req.body;
 
-  if (!email || !name || !message) {
+  if (!email || !name || !phone || !message) {
     res.status(400).json({"response": "incomplete"});
     return;
   }
